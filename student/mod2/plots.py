@@ -3,11 +3,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
 
+print("NOWY KOD DZIAŁA")
+
 sns.set_style("whitegrid")
 sns.set_context("talk")
 
 DATA_PATH = Path(__file__).resolve().parent / "data.csv"
-RESAMPLE_FREQ = "3H"
+RESAMPLE_FREQ = "3h"
 ROLLING_WINDOW = 6
 
 # Load data and prepare time index
