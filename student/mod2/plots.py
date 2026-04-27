@@ -2,34 +2,51 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# wczytanie danych
 df = pd.read_csv("data.csv")
 
-# czas
+# konwersja czasu
 df["date"] = pd.to_datetime(df["date"])
 df.set_index("date", inplace=True)
 
-# wykres energii
-df["Appliances_kWh"].rolling(50).mean().plot(figsize=(10,5))
+# 🔥 przeliczenie jednostki (Wh → kWh)
+df["Appliances_kWh"] = df["Appliances"] / 1000
+
+# -----------------------
+# 1. Wykres energii
+# -----------------------
+df["Appliances_kWh"].plot(figsize=(10,5))
 plt.title("Zużycie energii [kWh]")
 plt.ylabel("kWh")
+plt.xlabel("Czas")
 plt.savefig("energy.png")
 plt.close()
 
-# temperatura
-df["T1"].rolling(50).mean().plot()
+# -----------------------
+# 2. Temperatura
+# -----------------------
+df["T1"].plot(figsize=(10,5))
 plt.title("Temperatura [°C]")
 plt.ylabel("°C")
+plt.xlabel("Czas")
 plt.savefig("temp.png")
 plt.close()
 
-# histogram
+# -----------------------
+# 3. Histogram energii
+# -----------------------
 df["Appliances_kWh"].hist()
 plt.title("Histogram zużycia energii [kWh]")
 plt.xlabel("kWh")
+plt.ylabel("Liczba wystąpień")
 plt.savefig("hist.png")
 plt.close()
 
-# korelacje
-sns.heatmap(df.corr())
+# -----------------------
+# 4. Korelacje
+# -----------------------
+plt.figure(figsize=(10,8))
+sns.heatmap(df.corr(), cmap="coolwarm")
+plt.title("Macierz korelacji")
 plt.savefig("heatmap.png")
 plt.close()
