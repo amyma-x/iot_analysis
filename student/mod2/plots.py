@@ -12,10 +12,13 @@ df.set_index("date", inplace=True)
 # 🔥 przeliczenie jednostki (Wh → kWh)
 df["Appliances_kWh"] = df["Appliances"] / 1000
 
+# 🔥 usunięcie szumów (agregacja + wygładzenie)
+df_hourly = df.resample("1H").mean()
+
 # -----------------------
 # 1. Wykres energii
 # -----------------------
-df["Appliances_kWh"].plot(figsize=(10,5))
+df_hourly["Appliances_kWh"].rolling(5).mean().plot(figsize=(10,5))
 plt.title("Zużycie energii [kWh]")
 plt.ylabel("kWh")
 plt.xlabel("Czas")
@@ -25,7 +28,7 @@ plt.close()
 # -----------------------
 # 2. Temperatura
 # -----------------------
-df["T1"].plot(figsize=(10,5))
+df_hourly["T1"].rolling(5).mean().plot(figsize=(10,5))
 plt.title("Temperatura [°C]")
 plt.ylabel("°C")
 plt.xlabel("Czas")
