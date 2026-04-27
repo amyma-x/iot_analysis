@@ -9,19 +9,23 @@ df["date"] = pd.to_datetime(df["date"])
 df.set_index("date", inplace=True)
 
 # wykres energii
-df["Appliances"].rolling(window=50).mean().plot(figsize=(10,5))
-plt.title("Zużycie energii (wygładzone)")
+df["Appliances_kWh"].rolling(50).mean().plot(figsize=(10,5))
+plt.title("Zużycie energii [kWh]")
+plt.ylabel("kWh")
 plt.savefig("energy.png")
 plt.close()
 
 # temperatura
-df["T1"].rolling(window=50).mean().plot()
-plt.title("Temperatura (wygładzona)")
+df["T1"].rolling(50).mean().plot()
+plt.title("Temperatura [°C]")
+plt.ylabel("°C")
 plt.savefig("temp.png")
 plt.close()
 
 # histogram
-df["Appliances"].hist()
+df["Appliances_kWh"].hist()
+plt.title("Histogram zużycia energii [kWh]")
+plt.xlabel("kWh")
 plt.savefig("hist.png")
 plt.close()
 
