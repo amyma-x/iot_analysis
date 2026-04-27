@@ -9,13 +9,14 @@ df["date"] = pd.to_datetime(df["date"])
 df.set_index("date", inplace=True)
 
 # wykres energii
-df["Appliances"].plot(figsize=(10,5))
-plt.title("Zużycie energii")
+df["Appliances"].rolling(window=50).mean().plot(figsize=(10,5))
+plt.title("Zużycie energii (wygładzone)")
 plt.savefig("energy.png")
 plt.close()
 
 # temperatura
-df["T1"].plot()
+df["T1"].rolling(window=50).mean().plot()
+plt.title("Temperatura (wygładzona)")
 plt.savefig("temp.png")
 plt.close()
 
