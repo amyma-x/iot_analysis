@@ -9,11 +9,11 @@ df = pd.read_csv("data.csv")
 df["date"] = pd.to_datetime(df["date"])
 df.set_index("date", inplace=True)
 
-# 🔥 przeliczenie jednostki (Wh → kWh)
+# 🔥 NAJPIERW przeliczenie jednostki (Wh → kWh)
 df["Appliances_kWh"] = df["Appliances"] / 1000
 
-# 🔥 usunięcie szumów (agregacja + wygładzenie)
-df_hourly = df.resample("1H").mean()
+# 🔥 POTEM usunięcie szumów
+df_hourly = df.resample("1h").mean()
 
 # -----------------------
 # 1. Wykres energii
