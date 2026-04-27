@@ -9,7 +9,9 @@ Dane zostały wczytane z pliku CSV przy użyciu biblioteki Pandas.
 ## 3. Wykresy
 
 ### Zużycie energii
-![energy](energy.png)
+Wykres przedstawia zmiany zużycia energii w czasie.
+
+![Zużycie energii w czasie](energy.png)
 
 ### Temperatura
 ![temp](temp.png)
@@ -21,6 +23,7 @@ Dane zostały wczytane z pliku CSV przy użyciu biblioteki Pandas.
 ![heatmap](heatmap.png)
 
 ## 4. Wnioski
-- zużycie energii zmienia się w czasie
+- zużycie energii wykazuje duże wahania w czasie
+- można zauważyć okresy większego i mniejszego zużycia
 - temperatura może mieć wpływ na zużycie energii
-- widoczne są zależności między zmiennymi
+- dane wykazują korelacje między niektórymi zmiennymi
