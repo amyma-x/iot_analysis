@@ -10,8 +10,8 @@ sns.set_context("talk")
 DATA_PATH = Path(__file__).resolve().parent / "data.csv"
 
 # 🔥 lepsze parametry (mniej szumu)
-RESAMPLE_FREQ = "6h"
-ROLLING_WINDOW = 12
+RESAMPLE_FREQ = "12h"
+ROLLING_WINDOW = 20
 
 # Load data
 df = pd.read_csv(DATA_PATH)
@@ -24,9 +24,11 @@ df.sort_index(inplace=True)
 # 🔥 jednostki (Wh → kWh)
 df["Appliances_kWh"] = df["Appliances"] / 1000
 
-# 🔥 redukcja szumu
-resampled = df.resample(RESAMPLE_FREQ).mean()
-smoothed = resampled.rolling(window=ROLLING_WINDOW, min_periods=1).mean()
+# 🔥 mocna redukcja szumu (dane dzienne)
+resampled = df.resample("1D").mean()
+
+# 🔥 wygładzenie tygodniowe
+smoothed = resampled.rolling(window=7, min_periods=1).mean()
 
 # 🔥 lepsza oś czasu
 def format_time_axis(ax):
@@ -43,7 +45,7 @@ fig, ax = plt.subplots(figsize=(14, 6))
 ax.plot(resampled.index, resampled["Appliances_kWh"], alpha=0.3, linewidth=1)
 
 # 🔥 główna wygładzona linia
-ax.plot(smoothed.index, smoothed["Appliances_kWh"], linewidth=2)
+ax.plot(smoothed.index, smoothed["Appliances_kWh"], linewidth=3)
 
 ax.set_title("Zużycie energii [kWh] (po agregacji i wygładzeniu)")
 ax.set_xlabel("Data")
@@ -60,7 +62,7 @@ plt.close(fig)
 # -----------------------
 fig, ax = plt.subplots(figsize=(14, 6))
 
-ax.plot(smoothed.index, smoothed["T1"], color="tab:red", linewidth=2)
+ax.plot(smoothed.index, smoothed["T1"], color="tab:red", linewidth=3)
 
 ax.set_title("Temperatura T1 [°C] (po wygładzeniu)")
 ax.set_xlabel("Data")
