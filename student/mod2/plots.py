@@ -8,39 +8,48 @@ sns.set_style("whitegrid")
 sns.set_context("talk")
 
 DATA_PATH = Path(__file__).resolve().parent / "data.csv"
-RESAMPLE_FREQ = "3H"
-ROLLING_WINDOW = 6
 
-# Load data and prepare time index
-ninja = pd.read_csv(DATA_PATH)
-ninja["date"] = pd.to_datetime(ninja["date"])
-ninja.set_index("date", inplace=True)
-ninja.sort_index(inplace=True)
+# 🔥 lepsze parametry (mniej szumu)
+RESAMPLE_FREQ = "6h"
+ROLLING_WINDOW = 12
 
-# Convert energy from Wh to kWh
-if "Appliances" not in ninja.columns:
-    raise KeyError("Column 'Appliances' not found in data.csv")
-ninja["Appliances_kWh"] = ninja["Appliances"] / 1000
+# Load data
+df = pd.read_csv(DATA_PATH)
 
-# Resample to reduce high-frequency noise and then smooth
-resampled = ninja.resample(RESAMPLE_FREQ).mean()
-smoothed = resampled.rolling(window=ROLLING_WINDOW, min_periods=1, center=True).mean()
+# Time index
+df["date"] = pd.to_datetime(df["date"])
+df.set_index("date", inplace=True)
+df.sort_index(inplace=True)
 
-# Helper for time axis formatting
+# 🔥 jednostki (Wh → kWh)
+df["Appliances_kWh"] = df["Appliances"] / 1000
+
+# 🔥 redukcja szumu
+resampled = df.resample(RESAMPLE_FREQ).mean()
+smoothed = resampled.rolling(window=ROLLING_WINDOW, min_periods=1).mean()
+
+# 🔥 lepsza oś czasu
 def format_time_axis(ax):
-    ax.xaxis.set_major_locator(mdates.AutoDateLocator())
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m-%d %H:%M"))
+    ax.xaxis.set_major_locator(mdates.AutoDateLocator(maxticks=10))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m-%d"))
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right")
 
 # -----------------------
 # 1. Energy consumption
 # -----------------------
 fig, ax = plt.subplots(figsize=(14, 6))
-ax.plot(smoothed.index, smoothed["Appliances_kWh"], color="tab:blue", linewidth=2)
-ax.set_title("Średnie zużycie energii [kWh] po resamplingu i wygładzeniu")
-ax.set_xlabel("Data i godzina")
-ax.set_ylabel("Zużycie energii [kWh]")
-ax.grid(alpha=0.35)
+
+# 🔥 lekka linia danych surowych
+ax.plot(resampled.index, resampled["Appliances_kWh"], alpha=0.3, linewidth=1)
+
+# 🔥 główna wygładzona linia
+ax.plot(smoothed.index, smoothed["Appliances_kWh"], linewidth=2)
+
+ax.set_title("Zużycie energii [kWh] (po agregacji i wygładzeniu)")
+ax.set_xlabel("Data")
+ax.set_ylabel("kWh")
+ax.grid(alpha=0.3)
+
 format_time_axis(ax)
 fig.tight_layout()
 fig.savefig("energy.png", dpi=150)
@@ -50,25 +59,37 @@ plt.close(fig)
 # 2. Temperature
 # -----------------------
 fig, ax = plt.subplots(figsize=(14, 6))
+
 ax.plot(smoothed.index, smoothed["T1"], color="tab:red", linewidth=2)
-ax.set_title("Temperatura T1 [°C] po resamplingu i wygładzeniu")
-ax.set_xlabel("Data i godzina")
-ax.set_ylabel("Temperatura [°C]")
-ax.grid(alpha=0.35)
+
+ax.set_title("Temperatura T1 [°C] (po wygładzeniu)")
+ax.set_xlabel("Data")
+ax.set_ylabel("°C")
+ax.grid(alpha=0.3)
+
 format_time_axis(ax)
 fig.tight_layout()
 fig.savefig("temp.png", dpi=150)
 plt.close(fig)
 
 # -----------------------
-# 3. Energy histogram
+# 3. Histogram
 # -----------------------
 fig, ax = plt.subplots(figsize=(12, 6))
-ax.hist(resampled["Appliances_kWh"].dropna(), bins=30, color="tab:blue", edgecolor="black", alpha=0.8)
-ax.set_title("Histogram zużycia energii [kWh] po agregacji")
-ax.set_xlabel("Zużycie energii [kWh]")
-ax.set_ylabel("Liczba obserwacji")
+
+ax.hist(
+    resampled["Appliances_kWh"].dropna(),
+    bins=25,
+    color="tab:blue",
+    edgecolor="black",
+    alpha=0.8
+)
+
+ax.set_title("Histogram zużycia energii [kWh]")
+ax.set_xlabel("kWh")
+ax.set_ylabel("Liczba pomiarów")
 ax.grid(alpha=0.25)
+
 fig.tight_layout()
 fig.savefig("hist.png", dpi=150)
 plt.close(fig)
@@ -76,18 +97,18 @@ plt.close(fig)
 # -----------------------
 # 4. Korelacje
 # -----------------------
-fig, ax = plt.subplots(figsize=(14, 11))
-heatmap = sns.heatmap(
+fig, ax = plt.subplots(figsize=(12, 10))
+
+sns.heatmap(
     resampled.corr(),
     cmap="coolwarm",
-    annot=True,
-    fmt=".2f",
+    annot=False,   # 🔥 mniej chaosu
     linewidths=0.5,
     cbar_kws={"shrink": 0.8},
-    square=True,
-    ax=ax,
+    ax=ax
 )
-heatmap.set_title("Macierz korelacji zmiennych po resamplingu")
+
+ax.set_title("Macierz korelacji")
 fig.tight_layout()
 fig.savefig("heatmap.png", dpi=150)
 plt.close(fig)
