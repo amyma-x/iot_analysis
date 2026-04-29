@@ -63,19 +63,23 @@ plt.close()
 # -----------------------
 # 2. Temperature
 # -----------------------
-fig, ax = plt.subplots(figsize=(14, 6))
+resampled["day"] = resampled.index.day_name()
 
-ax.plot(smoothed.index, smoothed["T1"], color="tab:red", linewidth=3)
+avg = resampled.groupby("day")["Appliances_kWh"].mean()
 
-ax.set_title("Temperatura T1 [°C]")
-ax.set_xlabel("Data")
-ax.set_ylabel("°C")
-ax.grid(alpha=0.3)
+avg = avg.reindex([
+    "Monday","Tuesday","Wednesday",
+    "Thursday","Friday","Saturday","Sunday"
+])
 
-format_time_axis(ax)
-fig.tight_layout()
-fig.savefig("temp.png", dpi=150)
-plt.close(fig)
+avg.plot(kind="bar")
+
+plt.title("Średnie zużycie energii wg dnia tygodnia")
+plt.ylabel("kWh")
+
+plt.tight_layout()
+plt.savefig("day.png")
+plt.close()
 
 # -----------------------
 # 3. Histogram
