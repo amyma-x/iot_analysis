@@ -17,6 +17,8 @@ Wykres przedstawia zmiany zużycia energii w czasie.
 Wykres przedstawia zmiany temperatury w czasie.
 ![temp](temp.png)
 
+
+
 ### Histogram
 Wykres przedstawia rozkład wartości zużycia energii.
 ![hist](hist.png)
