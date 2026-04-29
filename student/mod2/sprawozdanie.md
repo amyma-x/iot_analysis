@@ -2,6 +2,7 @@
 
 ## 1. Cel
 Celem ćwiczenia była analiza danych pochodzących z domowego systemu IoT oraz ich wizualizacja. W ramach zadania wykorzystano bibliotekę Pandas do wczytania i przetwarzania danych z pliku CSV, a następnie przedstawiono je w formie wykresów.
+
 ## 2. Dane
 Dane zostały wczytane z pliku CSV przy użyciu biblioteki Pandas.
 
