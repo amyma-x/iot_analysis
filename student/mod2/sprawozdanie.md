@@ -15,7 +15,7 @@ Wykres przedstawia zmiany zużycia energii w czasie.
 
 ### Temperatura
 Wykres przedstawia zmiany temperatury w czasie.
-![temp](temp.png)
+![temp](day.png)
 
 
 

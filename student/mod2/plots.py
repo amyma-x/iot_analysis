@@ -63,13 +63,13 @@ plt.close()
 # -----------------------
 # 2. Temperature
 # -----------------------
-resampled["day"] = resampled.index.day_name()
+resampled["dzień tygodnia"] = resampled.index.day_name()
 
-avg = resampled.groupby("day")["Appliances_kWh"].mean()
+avg = resampled.groupby("dzień tygodnia")["Appliances_kWh"].mean()
 
 avg = avg.reindex([
-    "Monday","Tuesday","Wednesday",
-    "Thursday","Friday","Saturday","Sunday"
+    "Poniedziałek","Wtorek","Środa",
+    "Czwartek","Piątek","Sobota","Niedziela"
 ])
 
 avg.plot(kind="bar")
