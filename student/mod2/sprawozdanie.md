@@ -1,8 +1,7 @@
 # Sprawozdanie – analiza danych IoT
 
 ## 1. Cel
-Celem projektu była analiza danych z systemu IoT oraz wizualizacja wyników pomiarów.
-
+Celem ćwiczenia była analiza danych pochodzących z domowego systemu IoT oraz ich wizualizacja. W ramach zadania wykorzystano bibliotekę Pandas do wczytania i przetwarzania danych z pliku CSV, a następnie przedstawiono je w formie wykresów.
 ## 2. Dane
 Dane zostały wczytane z pliku CSV przy użyciu biblioteki Pandas.
 
@@ -14,16 +13,13 @@ Wykres przedstawia zmiany zużycia energii w czasie.
 ![Zużycie energii w czasie](energy.png)
 
 ### Temperatura
+Wykres przedstawia zmiany temperatury w czasie.
 ![temp](temp.png)
 
 ### Histogram
+Wykres przedstawia rozkład wartości zużycia energii.
 ![hist](hist.png)
 
-### Korelacje
-![heatmap](heatmap.png)
 
 ## 4. Wnioski
-- zużycie energii wykazuje duże wahania w czasie
-- można zauważyć okresy większego i mniejszego zużycia
-- temperatura może mieć wpływ na zużycie energii
-- dane wykazują korelacje między niektórymi zmiennymi
+Zużycie energii wykazuje duże wahania w czasie.Można zauważyć okresy większego i mniejszego zużycia. Temperatura może mieć wpływ na zużycie energii. Dane wykazują korelacje między niektórymi zmiennymi.
