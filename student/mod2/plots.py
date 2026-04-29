@@ -39,23 +39,27 @@ def format_time_axis(ax):
 # -----------------------
 # 1. Energy consumption
 # -----------------------
-fig, ax = plt.subplots(figsize=(14, 6))
+# -----------------------
+# 1. Energia vs temperatura
+# -----------------------
+fig, ax1 = plt.subplots(figsize=(14,6))
 
-# linia danych surowych
-ax.plot(resampled.index, resampled["Appliances_kWh"], alpha=0.3, linewidth=1)
+# energia
+ax1.plot(smoothed.index, smoothed["Appliances_kWh"], color="tab:blue", label="Energia [kWh]")
+ax1.set_ylabel("Energia [kWh]", color="tab:blue")
 
-# Główna linia
-ax.plot(smoothed.index, smoothed["Appliances_kWh"], linewidth=3)
+# druga oś (temperatura)
+ax2 = ax1.twinx()
+ax2.plot(smoothed.index, smoothed["T1"], color="tab:red", label="Temperatura [°C]")
+ax2.set_ylabel("Temperatura [°C]", color="tab:red")
 
-ax.set_title("Zużycie energii [kWh]")
-ax.set_xlabel("Data")
-ax.set_ylabel("kWh")
-ax.grid(alpha=0.3)
+# tytuł i styl
+ax1.set_title("Zużycie energii w zależności od temperatury")
+ax1.set_xlabel("Data")
 
-format_time_axis(ax)
 fig.tight_layout()
-fig.savefig("energy.png", dpi=150)
-plt.close(fig)
+plt.savefig("energy_temp.png", dpi=150)
+plt.close()
 
 # -----------------------
 # 2. Temperature
