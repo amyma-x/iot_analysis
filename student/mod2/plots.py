@@ -63,22 +63,44 @@ plt.close()
 # -----------------------
 # 2. Temperature
 # -----------------------
-resampled["dzień tygodnia"] = resampled.index.day_name()
+# -----------------------
+# Dni tygodnia (po polsku)
+# -----------------------
 
-avg = resampled.groupby("dzień tygodnia")["Appliances_kWh"].mean()
+dni_map = {
+    "Monday": "Poniedziałek",
+    "Tuesday": "Wtorek",
+    "Wednesday": "Środa",
+    "Thursday": "Czwartek",
+    "Friday": "Piątek",
+    "Saturday": "Sobota",
+    "Sunday": "Niedziela"
+}
 
-avg = avg.reindex([
-    "Poniedziałek","Wtorek","Środa",
-    "Czwartek","Piątek","Sobota","Niedziela"
-])
+# zamiana na polskie dni
+resampled["dzien_tygodnia"] = resampled.index.day_name().map(dni_map)
 
+# średnia
+avg = resampled.groupby("dzien_tygodnia")["Appliances_kWh"].mean()
+
+# kolejność dni
+kolejnosc = [
+    "Poniedziałek", "Wtorek", "Środa",
+    "Czwartek", "Piątek", "Sobota", "Niedziela"
+]
+
+avg = avg.reindex(kolejnosc)
+
+# wykres
 avg.plot(kind="bar")
 
-plt.title("Średnie zużycie energii wg dnia tygodnia")
-plt.ylabel("kWh")
+plt.title("Średnie zużycie energii według dnia tygodnia")
+plt.xlabel("Dzień tygodnia")
+plt.ylabel("Zużycie energii [kWh]")
 
+plt.xticks(rotation=45)
 plt.tight_layout()
-plt.savefig("day.png")
+plt.savefig("day.png", dpi=150)
 plt.close()
 
 # -----------------------

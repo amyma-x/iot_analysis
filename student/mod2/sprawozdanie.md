@@ -9,16 +9,15 @@ Dane zostały wczytane z pliku CSV przy użyciu biblioteki Pandas.
 ## 3. Wykresy
 
 ### Zużycie energii
-Wykres przedstawia zmiany zużycia energii w czasie.
+Wykres przedstawia zmiany zużycia energii względem temperatury .
 
 ![](energy_temp.png)
 
 ### Temperatura
-Wykres przedstawia zmiany temperatury w czasie.
+
+
+Wykres przedstawia zmiany temperatury względem dnia tygodnia.
 ![temp](day.png)
-
-
-
 
 
 
