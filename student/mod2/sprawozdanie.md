@@ -11,7 +11,7 @@ Dane zostały wczytane z pliku CSV przy użyciu biblioteki Pandas.
 ### Zużycie energii
 Wykres przedstawia zmiany zużycia energii w czasie.
 
-![Zużycie energii w czasie](energy.png)
+![](energy.png)
 
 ### Temperatura
 Wykres przedstawia zmiany temperatury w czasie.
