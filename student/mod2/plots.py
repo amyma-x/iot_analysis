@@ -32,10 +32,9 @@ smoothed = resampled.rolling(window=7, min_periods=1).mean()
 
 # Oś czasu
 def format_time_axis(ax):
-    ax.xaxis.set_major_locator(mdates.AutoDateLocator(maxticks=10))
+    ax.xaxis.set_major_locator(mdates.AutoDateLocator(maxticks=8))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m-%d"))
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right")
-
 # -----------------------
 # 1. Energy consumption
 # -----------------------
