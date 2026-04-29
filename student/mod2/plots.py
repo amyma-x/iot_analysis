@@ -41,13 +41,13 @@ def format_time_axis(ax):
 # -----------------------
 fig, ax = plt.subplots(figsize=(14, 6))
 
-# 🔥 lekka linia danych surowych
+# linia danych surowych
 ax.plot(resampled.index, resampled["Appliances_kWh"], alpha=0.3, linewidth=1)
 
 # Główna linia
 ax.plot(smoothed.index, smoothed["Appliances_kWh"], linewidth=3)
 
-ax.set_title("Zużycie energii [kWh] (po agregacji i wygładzeniu)")
+ax.set_title("Zużycie energii [kWh]")
 ax.set_xlabel("Data")
 ax.set_ylabel("kWh")
 ax.grid(alpha=0.3)
